@@ -12,6 +12,20 @@ class Card extends Component {
 		answerCount: 0
 	}
 
+	restartQuiz = () => {
+
+		this.setState({
+			viewAnswer: false,
+			position: 0,
+			answerCount: 0
+		})
+
+		Animated.spring(this.animatedValue, {
+			toValue: 0,
+			speed: 200
+		}).start()
+	}
+
 	nextQuestion = (answer) => {
 		const { position, answerCount } = this.state
 
@@ -83,7 +97,7 @@ class Card extends Component {
 	}
 
 	render () {
-		const { cards } = this.props
+		const { cards, navigation, id } = this.props
 		const { viewAnswer, position, answerCount } = this.state
 
 		const frontAnimatedStyle = {
@@ -103,7 +117,7 @@ class Card extends Component {
 		const total = cards.length
 
 		if (typeof cards[position] === 'undefined') {
-			return <QuizFinish answerCount={answerCount} total={total} />
+			return <QuizFinish answerCount={answerCount} total={total} restartQuiz={this.restartQuiz} navigation={navigation} id={id} />
 		}
 
 		return (

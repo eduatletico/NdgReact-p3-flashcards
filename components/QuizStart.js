@@ -13,11 +13,11 @@ class QuizStart extends Component {
 	}
 
 	render () {
-		const { deck } = this.props
+		const { deck, navigation } = this.props
 
 		return (
 			<View style={styles.container}>
-				<Card cards={deck.questions} />
+				<Card cards={deck.questions} navigation={navigation} id={deck.title} />
 			</View>
 		)
 	}

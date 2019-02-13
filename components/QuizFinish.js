@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { white, lightGray, purple, gray } from '../utils/colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -12,7 +12,7 @@ class QuizFinish extends Component {
 	}
 
 	render () {
-		const { answerCount, total } = this.props
+		const { answerCount, total, restartQuiz, navigation, id } = this.props
 
 		const perc = Math.round((answerCount / total) * 100)
 
@@ -54,6 +54,28 @@ class QuizFinish extends Component {
 
 					</View>
 				</View>
+				<View style={[styles.row, {marginTop:30}]}>
+
+					<TouchableOpacity
+		      	style={Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn}
+		      	onPress={() => restartQuiz()}
+		      >
+	        	<Text style={styles.btnText}>Restart Quiz</Text>
+		      </TouchableOpacity>
+
+		      <TouchableOpacity
+		      	style={Platform.OS === 'ios' ? styles.iosBtn : styles.androidBtn}
+		      	onPress={() => {
+		      		navigation.navigate(
+					      'DeckDetail',
+					      { deckId: id }
+					    )
+		      	}}
+		      >
+	        	<Text style={styles.btnText}>Back to Deck</Text>
+		      </TouchableOpacity>
+
+				</View>
 			</View>
 		)
 	}
@@ -86,7 +108,34 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3
     },
-  }
+  },
+  iosBtn: {
+		backgroundColor: purple,
+		padding: 10,
+		borderRadius: 7,
+		height: 45,
+		marginLeft: 40,
+		marginRight: 40
+	},
+	androidBtn: {
+		backgroundColor: purple,
+		padding: 10,
+		paddingLeft: 30,
+		paddingRight: 30,
+		height: 45,
+		borderRadius: 2,
+		alignSelf: 'flex-end',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginLeft: 15,
+		marginRight: 15,
+		marginTop: 15
+	},
+	btnText: {
+		color: white,
+		fontSize: 20,
+		textAlign: 'center'
+	},
 })
 
 export default connect()(QuizFinish)

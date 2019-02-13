@@ -21,11 +21,12 @@ class AddDeck extends Component {
 		}))
 
 		this.props.navigation.goBack()
+		this.props.navigation.navigate(
+      'DeckDetail',
+      { deckId: title }
+    )
 
 		saveDeckTitle(title)
-
-		// clearLocalNotification()
-		// 	.then(setLocalNotification())
 	}
 
 	render () {
