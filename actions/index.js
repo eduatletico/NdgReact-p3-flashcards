@@ -5,21 +5,23 @@ export const ADD_CARD = 'ADD_CARD'
 export function receiveDecks (decks) {
   return {
     type: RECEIVE_DECKS,
-    decks,
+    payload: decks,
   }
 }
 
 export function addDeck (title) {
   return {
     type: ADD_DECK,
-    title,
+    payload: title,
   }
 }
 
 export function addCard (title, card) {
   return {
     type: ADD_CARD,
-    title,
-    card
+    payload: {
+      title,
+      card
+    }
   }
 }

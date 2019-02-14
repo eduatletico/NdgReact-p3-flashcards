@@ -11,14 +11,15 @@ class Home extends Component {
 		ready: false
 	}
 
-  componentDidMount () {
+  async componentDidMount () {
     const { dispatch } = this.props
 
-    getDecks()
-      .then((decks) => dispatch(receiveDecks(decks)))
-      .then(() => this.setState(() => ({
-      	ready: true
-      })))
+    const decks = await getDecks()
+    await dispatch(receiveDecks(decks))
+
+    this.setState({
+    	ready: true
+    })
   }
 
 	render () {
@@ -33,19 +34,23 @@ class Home extends Component {
 			<ScrollView style={styles.container}>
 				<Text style={{fontSize:16}}>FlashCards</Text>
 				{Object.keys(decks).length > 0
-				? Object.keys(decks).map((key) => (
-					<View key={key} style={styles.item}>
-						<TouchableOpacity onPress={() => navigation.navigate(
-	            'DeckDetail',
-	            { deckId: key }
-	          )}>
-	          	<View>
-		          	<Text style={{fontSize:20}}>{decks[key].title}</Text>
-								<Text style={{textAlign: 'right', color: gray, fontStyle: 'italic'}}>{decks[key].questions.length} cards</Text>
-	          	</View>
-	          </TouchableOpacity>
-					</View>
-				))
+				? Object.keys(decks).map((key) => {
+						if (typeof decks[key].title !== 'undefined') {
+							return (
+								<View key={key} style={styles.item}>
+									<TouchableOpacity onPress={() => navigation.navigate(
+				            'DeckDetail',
+				            { deckId: key }
+				          )}>
+				          	<View>
+					          	<Text style={{fontSize:20}}>{decks[key].title}</Text>
+											<Text style={{textAlign: 'right', color: gray, fontStyle: 'italic'}}>{decks[key].questions.length} cards</Text>
+				          	</View>
+				          </TouchableOpacity>
+								</View>
+						)
+					}
+				})
 				: <Text style={{marginTop: 20, color: gray}}>Add a Deck to start a quiz</Text>
 				}
 				<View style={{marginBottom: 30}}></View>

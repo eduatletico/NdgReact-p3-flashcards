@@ -36,7 +36,7 @@ class QuizFinish extends Component {
 			<View style={styles.container}>
 				<View style={styles.item}>
 					<View style={styles.row}>
-						<Text style={{color:gray,fontStyle:'italic',fontSize:30}}>Quiz Finished</Text>
+						<Text style={styles.title}>Quiz Finished</Text>
 					</View>
 					<View style={styles.row}>
 						<Text style={{fontSize:25}}>You got {answerCount} out of {total}!</Text>
@@ -136,6 +136,11 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		textAlign: 'center'
 	},
+	title: {
+		color:gray,
+		fontStyle:'italic',
+		fontSize:30
+	}
 })
 
 export default connect()(QuizFinish)

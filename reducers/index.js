@@ -1,28 +1,30 @@
 import { RECEIVE_DECKS, ADD_DECK, ADD_CARD } from '../actions'
+import storage from 'redux-persist/lib/storage'
+import { persistReducer } from 'redux-persist'
 
 function decks (state = {}, action) {
 	switch (action.type) {
 		case RECEIVE_DECKS:
 			return {
 				...state,
-				...action.decks
+				...action.payload
 			}
 		case ADD_DECK:
 			return {
 				...state,
-				[action.title]: {
-					title: action.title,
+				[action.payload]: {
+					title: action.payload,
 					questions: []
 				}
 			}
 		case ADD_CARD:
 			return {
 				...state,
-				[action.title]: {
-					...state[action.title],
+				[action.payload.title]: {
+					...state[action.payload.title],
 					questions: [
-						...state[action.title].questions,
-						action.card
+						...state[action.payload.title].questions,
+						action.payload.card
 					]
 				}
 			}
@@ -31,4 +33,10 @@ function decks (state = {}, action) {
 	}
 }
 
-export default decks
+const persistConfig = {
+  key: 'auth',
+  storage: storage,
+  blacklist: ['isLoggingIn']
+}
+
+export default persistReducer(persistConfig, decks)

@@ -9,19 +9,17 @@ export function clearLocalNotifications () {
     .then(Notifications.cancelAllScheduledNotificationsAsync())
 }
 
-function createNotification () {
-  return {
-    title: "Study",
-    body: "👋 Don't forget to study for today!",
-    ios: {
-      sound: true
-    },
-    android: {
-      sound: true,
-      priority: 'high',
-      sticky: false,
-      vibrate: true
-    }
+const createNotification = {
+  title: "Study",
+  body: "👋 Don't forget to study for today!",
+  ios: {
+    sound: true
+  },
+  android: {
+    sound: true,
+    priority: 'high',
+    sticky: false,
+    vibrate: true
   }
 }
 
@@ -41,7 +39,7 @@ export function setLocalNotification () {
               tomorrow.setMinutes(0)
 
               Notifications.scheduleLocalNotificationAsync(
-                createNotification(),
+                createNotification,
                 {
                   time: tomorrow,
                   repeat: 'day',
